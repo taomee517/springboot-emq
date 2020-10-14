@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -32,6 +34,7 @@ public class MqttPushClient implements SmartLifecycle {
 
     private MqttClient client;
     private boolean running;
+    private MemoryPersistence memoryPersistence;
 
 
     @Override
@@ -43,7 +46,8 @@ public class MqttPushClient implements SmartLifecycle {
             String password = mqttConfig.getPassword();
             int timeout = mqttConfig.getTimeout();
             int keepalive = mqttConfig.getKeepalive();
-            client = connect(hostUrl, clientId, username, password, timeout, keepalive);
+            memoryPersistence = new MemoryPersistence();
+            client = connect(hostUrl, clientId, username, password, timeout, keepalive, memoryPersistence);
             log.info("与mqttServer连接建立成功:{}", client.isConnected());
             // 以/#结尾表示订阅所有以test开头的主题
             List<String> defaultTopics = mqttConfig.getDefaultTopics();
@@ -63,7 +67,9 @@ public class MqttPushClient implements SmartLifecycle {
     public void stop() {
         try {
             if (client.isConnected()) {
-                client.disconnectForcibly();
+                memoryPersistence.close();
+                client.disconnect();
+                client.close();
             }
             running = false;
         } catch (MqttException e) {
@@ -86,8 +92,10 @@ public class MqttPushClient implements SmartLifecycle {
      * @param timeout   超时时间
      * @param keepalive 保留数
      */
-    public MqttClient connect(String host, String clientID, String username, String password, int timeout, int keepalive) throws Exception {
-        MqttClient client = new MqttClient(host, clientID, new MemoryPersistence());
+    public MqttClient connect(String host, String clientID, String username, String password,
+                              int timeout, int keepalive, MemoryPersistence memoryPersistence) throws Exception {
+        if(Objects.isNull(memoryPersistence) || StringUtils.isEmpty(clientID)) return null;
+        MqttClient client = new MqttClient(host, clientID, memoryPersistence);
         MqttConnectOptions options = new MqttConnectOptions();
         options.setCleanSession(true);
         options.setUserName(username);
