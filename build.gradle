@@ -22,6 +22,7 @@ apply plugin: "io.spring.dependency-management"
 group = "org.example"
 version = "1.0"
 archivesBaseName = 'springboot-emq'
+mainClassName = 'org.example.emq.SpringbootEmqApplication'
 
 
 tasks.withType(JavaCompile) {
@@ -63,6 +64,13 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
+buildscript {
+    ext{
+        fastjsonVersion = '1.2.71'
+        commonLang3Version = '3.9'
+    }
+}
+
 
 dependencies {
 
@@ -90,6 +98,10 @@ dependencies {
 
     /**integration-mqtt*/
     compile("org.springframework.integration:spring-integration-mqtt")
+
+    compile "org.apache.commons:commons-lang3:${commonLang3Version}"
+
+    compile "com.alibaba:fastjson:${fastjsonVersion}"
 
     // lombok
     compile group: 'org.projectlombok', name: 'lombok'

@@ -1,15 +1,27 @@
-spring:
+#spring:
+#  mqtt:
+#    username: admin							# 账号
+#    password: public						# 密码
+#    host-url: tcp://127.0.0.1:19710			# mqtt连接tcp地址
+#    client-id: MQTT-Client-test				# 客户端Id，每个启动的id要不同
+#
+#    timeout: 100							# 超时时间
+#    keepalive: 100							# 保持连接数
+#    # 默认主题
+#    default-topics:
+#      - "$share/G1/convertData/4000/123"
+
+
+config:
   mqtt:
-    username: admin							# 账号
-    password: public						# 密码
-    host-url: tcp://127.0.0.1:55100			# mqtt连接tcp地址
-    client-id: MQTT-Client-test				# 客户端Id，每个启动的id要不同
-
-    timeout: 100							# 超时时间
-    keepalive: 100							# 保持连接数
-    # 默认主题
-    default-topics:
-      - "$crsp/#"
-      - "$dp/#"
-
-
+    client:
+      username: admin
+      password: public
+      sslEnable: false
+      host: 192.168.0.86
+      port: 19710
+      sslPort: 19711
+      timeout: 100
+      keepalive: 100
+      default-topics:
+        - "$share/G00/convertData/4000/123"
