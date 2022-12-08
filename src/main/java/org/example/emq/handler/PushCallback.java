@@ -15,7 +15,7 @@
 // */
 //
 //@Slf4j
-////@Component
+//@Component
 //public class PushCallback implements MqttCallback {
 //
 //    @Autowired

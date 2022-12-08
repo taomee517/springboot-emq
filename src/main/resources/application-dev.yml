@@ -18,10 +18,19 @@ config:
       username: admin
       password: public
       sslEnable: false
-      host: 192.168.0.86
+      host: 192.168.1.151
       port: 19710
       sslPort: 19711
       timeout: 100
       keepalive: 100
       default-topics:
+        - "convertData/4000/123"
+#        - "convertData/4000/#"
+#        - "convertData/+/123"
+#        - "convertData/#"
+        - "$queue/convertData/4000/123"
         - "$share/G00/convertData/4000/123"
+        - "$share/G01/convertData/4000/123"
+        - "$share/G02/convertData/4000/123"
+        - "$share/G03/convertData/4000/#"
+        - "$share/G04/convertData/#"

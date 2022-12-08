@@ -6,18 +6,14 @@
 //import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 //import org.example.emq.config.MqttConfig;
 //import org.example.emq.handler.PushCallback;
-//import org.example.emq.utils.SslContextUtil;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.SmartLifecycle;
 //import org.springframework.stereotype.Component;
 //import org.springframework.util.CollectionUtils;
 //import org.springframework.util.StringUtils;
 //
-//import javax.net.ssl.SSLContext;
-//import javax.net.ssl.SSLSocketFactory;
 //import java.util.List;
 //import java.util.Objects;
-//import java.util.concurrent.CompletableFuture;
 //
 ///**
 // * @author 罗涛
@@ -44,7 +40,6 @@
 //    public void start() {
 //        try {
 //            String hostUrl = mqttConfig.getHostUrl();
-////            String hostUrl = "ssl://localhost:55101";
 //            String clientId = mqttConfig.getClientId();
 //            String username = mqttConfig.getUsername();
 //            String password = mqttConfig.getPassword();
@@ -63,7 +58,7 @@
 //            running = true;
 //        } catch (Exception e) {
 //            log.error("初始化MqttClient时发生异常：" + e.getMessage(), e);
-////            start();
+//            start();
 //        }
 //    }
 //
@@ -106,18 +101,6 @@
 //        options.setPassword(password.toCharArray());
 //        options.setConnectionTimeout(timeout);
 //        options.setKeepAliveInterval(keepalive);
-//
-////        String sslPassword = "aeroiot";
-////        String clientCertPath = "/certs/client.jks";
-////        String rootCertPath = "/certs/root.jks";
-//
-////        String clientCertPath = "D:\\scripts\\ca-key\\prod\\client.jks";
-////        String rootCertPath = "D:\\scripts\\ca-key\\prod\\root.jks";
-//
-////        SSLContext clientContext = SslContextUtil.getClientContext(clientCertPath, sslPassword, rootCertPath, sslPassword);
-////        SSLSocketFactory socketFactory = clientContext.getSocketFactory();
-////        options.setSocketFactory(socketFactory);
-//
 //        client.setCallback(pushCallback);
 //        client.connect(options);
 //        return client;
